@@ -2,6 +2,7 @@ const http = require('http');
 const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const handlers = require('./handlers');
+const token = require('./token');
 
 /* create Pizza Delivery object */
 var pizzadelivery = {};
@@ -25,10 +26,13 @@ pizzadelivery.start_server = http.createServer(function (req, res) {
     req.on('data', chunk => {
         buffer += decoder.write(chunk);
     });
+    
     req.on('end', () => {
         buffer += decoder.end();
         
         console.log('A chunk of data has arrived: ', buffer);
+
+        token.encrypt('Praveen Kumar Sharma');
 
         // form data to send
         var data = {
